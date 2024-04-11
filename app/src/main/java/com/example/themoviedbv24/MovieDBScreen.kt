@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,12 +27,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.themoviedbv24.database.Movies
 import com.example.themoviedbv24.ui.screens.MovieDetailScreen
+import com.example.themoviedbv24.ui.screens.MovieEmptyScreen
 import com.example.themoviedbv24.ui.screens.MovieListScreen
 import com.example.themoviedbv24.viewmodel.MovieDBViewModel
 
 enum class MovieDBScreen(@StringRes val title: Int){
     List(title = R.string.app_name),
-    Detail(title = R.string.movie_Detail)
+    Detail(title = R.string.movie_Detail),
+    Empty(title = R.string.movie_Empty)
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,6 +42,7 @@ fun MovieDBAppBar(
     currentScreen: MovieDBScreen,
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
+    navigateToEmptyScreen: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
@@ -46,6 +50,16 @@ fun MovieDBAppBar(
         colors = TopAppBarDefaults.mediumTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer
         ),
+        actions = {
+            IconButton(onClick = {
+                navigateToEmptyScreen()
+            }) {
+                Icon(
+                    imageVector = Icons.Filled.MoreVert,
+                    contentDescription = stringResource(id = R.string.more_vert)
+                )
+            }
+        },
         modifier = modifier,
         navigationIcon = {
             if (canNavigateBack) {
@@ -76,7 +90,8 @@ fun TheMovieDBApp(
             MovieDBAppBar(
                 currentScreen = currentScreen,
                 canNavigateBack = navController.previousBackStackEntry != null,
-                navigateUp = { navController.navigateUp() }
+                navigateUp = { navController.navigateUp() },
+                navigateToEmptyScreen = { navController.navigate(MovieDBScreen.Empty.name)}
             )
         }
     ) { innerPadding ->
@@ -108,6 +123,9 @@ fun TheMovieDBApp(
                         modifier = Modifier
                     )
                 }
+            }
+            composable(route = MovieDBScreen.Empty.name){
+                MovieEmptyScreen(modifier = Modifier)
             }
         }
 
