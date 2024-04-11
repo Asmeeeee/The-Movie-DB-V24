@@ -51,13 +51,17 @@ fun MovieDBAppBar(
             containerColor = MaterialTheme.colorScheme.primaryContainer
         ),
         actions = {
-            IconButton(onClick = {
-                navigateToEmptyScreen()
-            }) {
-                Icon(
-                    imageVector = Icons.Filled.MoreVert,
-                    contentDescription = stringResource(id = R.string.more_vert)
-                )
+            if(currentScreen.name != MovieDBScreen.Empty.name){
+                IconButton(
+                    onClick = {
+                        navigateToEmptyScreen()
+                    },
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.MoreVert,
+                        contentDescription = stringResource(id = R.string.more_vert)
+                    )
+                }
             }
         },
         modifier = modifier,
@@ -91,7 +95,7 @@ fun TheMovieDBApp(
                 currentScreen = currentScreen,
                 canNavigateBack = navController.previousBackStackEntry != null,
                 navigateUp = { navController.navigateUp() },
-                navigateToEmptyScreen = { navController.navigate(MovieDBScreen.Empty.name)}
+                navigateToEmptyScreen = { navController.navigate(MovieDBScreen.Empty.name) }
             )
         }
     ) { innerPadding ->
