@@ -10,10 +10,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
@@ -83,7 +81,7 @@ fun MovieDetailScreen(
         Spacer(modifier = Modifier.size(8.dp))
         ClickableText(
             text = buildAnnotatedString {
-                append("https://www.imdb.com/title/"+movie.imdb_id)
+                append("https://www.imdb.com/title/"+movie.imdbId)
                 addStyle(
                     style = SpanStyle(
                         color = MaterialTheme.colorScheme.primary,
@@ -93,7 +91,7 @@ fun MovieDetailScreen(
                     end = length
                 )
             },
-            onClick = { uriHandler.openUri("https://www.imdb.com/title/"+movie.imdb_id) }
+            onClick = { uriHandler.openUri("https://www.imdb.com/title/"+movie.imdbId) }
         )
         Spacer(modifier = Modifier.size(8.dp))
     }
