@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.themoviedbv24.model.Movie
 import com.example.themoviedbv24.utils.Constants
+import com.example.themoviedbv24.utils.Constants.IMDB_BASE_URL
 
 
 @Composable
@@ -81,7 +82,7 @@ fun MovieDetailScreen(
         Spacer(modifier = Modifier.size(8.dp))
         ClickableText(
             text = buildAnnotatedString {
-                append("https://www.imdb.com/title/"+movie.imdbId)
+                append(IMDB_BASE_URL+movie.imdbId)
                 addStyle(
                     style = SpanStyle(
                         color = MaterialTheme.colorScheme.primary,
