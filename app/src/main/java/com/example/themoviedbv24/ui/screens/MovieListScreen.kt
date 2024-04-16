@@ -23,32 +23,54 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.themoviedbv24.model.Genre
 import com.example.themoviedbv24.model.Movie
-import com.example.themoviedbv24.ui.theme.TheMovieDBV24Theme
 import com.example.themoviedbv24.utils.Constants
+import com.example.themoviedbv24.viewmodel.MovieListUiState
 
 @Composable
-fun MovieListScreen(
-    movieList: List<Movie>,
-    onMovieListItemClicked: (Movie) -> Unit,
-    modifier: Modifier = Modifier
+fun MovieListScreen(movieListUiState: MovieListUiState,
+                    onMovieListItemClicked: (Movie) -> Unit,
+                    modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier) {
-        items(movieList) { movie ->
-            MovieListItemCard(
-                movie = movie,
-                onMovieListItemClicked,
-                modifier = Modifier.padding(8.dp)
-            )
+        when(movieListUiState) {
+            is MovieListUiState.Success -> {
+                items(movieListUiState.movies) { movie ->
+                    MovieListItemCard(
+                        movie = movie,
+                        onMovieListItemClicked,
+                        modifier = Modifier.padding(8.dp)
+                    )
+                }
+            }
+
+            is MovieListUiState.Loading -> {
+                item {
+                    Text(
+                        text = "Loading...",
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+            }
+
+            is MovieListUiState.Error -> {
+                item {
+                    Text(
+                        text = "Error: Something went wrong!",
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+            }
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MovieListItemCard(
-    movie: Movie,
-    onMovieListItemClicked: (Movie) -> Unit,
-    modifier: Modifier = Modifier
+fun MovieListItemCard(movie: Movie,
+                      onMovieListItemClicked: (Movie) -> Unit,
+                      modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier,
@@ -90,24 +112,3 @@ fun MovieListItemCard(
     }
 }
 
-
-@Preview(showBackground = true)
-@Composable
-fun MovieItemPreview() {
-    val genreAction = Genre(1, "action")
-    TheMovieDBV24Theme {
-        MovieListItemCard(
-            movie = Movie(
-                1,
-                "Raya and the Last Dragon",
-                "/lPsD10PP4rgUGiGR4CCXA6iY0QQ.jpg",
-                "/9xeEGUZjgiKlI69jwIOi0hjKUIk.jpg",
-                "2021-03-03",
-                "Long ago, in the fantasy world of Kumandra, humans and dragons lived together in harmony. But when an evil force threatened the land, the dragons sacrificed themselves to save humanity. Now, 500 years later, that same evil has returned and it’s up to a lone warrior, Raya, to track down the legendary last dragon to restore the fractured land and its divided people.",
-                "https://movies.disney.com/raya-and-the-last-dragon",
-                "tt5109280",
-                listOf(genreAction)
-            ), {}
-        )
-    }
-}
