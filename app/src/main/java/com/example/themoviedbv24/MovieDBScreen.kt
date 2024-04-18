@@ -114,7 +114,7 @@ fun MovieDBApp(
                 MovieListScreen(
                     movieListUiState = movieDBViewModel.movieListUiState,
                     onMovieListItemClicked = {
-                        movieDBViewModel.setSelectedMovie(it)
+                        movieDBViewModel.setSelectedMovieDetail(it)
                         navController.navigate(MovieDBScreen.Detail.name)
                     },
                     modifier = Modifier

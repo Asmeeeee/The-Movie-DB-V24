@@ -23,6 +23,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.example.themoviedbv24.database.MoviesRepository
 import com.example.themoviedbv24.model.Movie
 import com.example.themoviedbv24.utils.Constants
 import com.example.themoviedbv24.utils.Constants.IMDB_BASE_URL
@@ -40,34 +41,34 @@ fun MovieDetailScreen(
             Column(Modifier.width(IntrinsicSize.Max)) {
                 Box(Modifier.fillMaxWidth().padding(0.dp)) {
                     AsyncImage(
-                        model = Constants.BACKDROP_IMAGE_BASE_URL + Constants.BACKDROP_IMAGE_WIDTH + selectedMovieUiState.movie.backdropPath,
-                        contentDescription = selectedMovieUiState.movie.title,
+                        model = Constants.BACKDROP_IMAGE_BASE_URL + Constants.BACKDROP_IMAGE_WIDTH + selectedMovieUiState.movieDetail.backdropPath,
+                        contentDescription = selectedMovieUiState.movieDetail.title,
                         modifier = modifier,
                         contentScale = ContentScale.Crop
                     )
                 }
                 Text(
-                    text = selectedMovieUiState.movie.title,
+                    text = selectedMovieUiState.movieDetail.title,
                     style = MaterialTheme.typography.headlineSmall
                 )
                 Spacer(modifier = Modifier.size(8.dp))
-                /*Row{
-                    selectedMovieUiState.movie.genres.forEach { genre ->
+                Row{
+                    selectedMovieUiState.movieDetail.genres.forEach { genre ->
                         Text(
                             text = genre.name,
                             style = MaterialTheme.typography.bodySmall
                         )
                         Spacer(modifier = Modifier.size(8.dp))
                     }
-                }*/
+                }
                 Spacer(modifier = Modifier.size(8.dp))
                 Text(
-                    text = selectedMovieUiState.movie.releaseDate,
+                    text = selectedMovieUiState.movieDetail.releaseDate,
                     style = MaterialTheme.typography.bodySmall
                 )
                 Spacer(modifier = Modifier.size(8.dp))
                 Text(
-                    text = selectedMovieUiState.movie.overview,
+                    text = selectedMovieUiState.movieDetail.overview,
                     style = MaterialTheme.typography.bodySmall,
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis,
@@ -75,7 +76,7 @@ fun MovieDetailScreen(
                 Spacer(modifier = Modifier.size(8.dp))
                 ClickableText(
                     text = buildAnnotatedString {
-                        append(selectedMovieUiState.movie.homepage)
+                        append(selectedMovieUiState.movieDetail.homepage)
                         addStyle(
                             style = SpanStyle(
                                 color = MaterialTheme.colorScheme.primary,
@@ -85,7 +86,7 @@ fun MovieDetailScreen(
                             end = length
                         )
                     },
-                    onClick = { selectedMovieUiState.movie.homepage?.let { it1 ->
+                    onClick = { selectedMovieUiState.movieDetail.homepage?.let { it1 ->
                         uriHandler.openUri(
                             it1
                         )
@@ -94,7 +95,7 @@ fun MovieDetailScreen(
                 Spacer(modifier = Modifier.size(8.dp))
                 ClickableText(
                     text = buildAnnotatedString {
-                        append(IMDB_BASE_URL+selectedMovieUiState.movie.imdbId)
+                        append(IMDB_BASE_URL+selectedMovieUiState.movieDetail.imdbId)
                         addStyle(
                             style = SpanStyle(
                                 color = MaterialTheme.colorScheme.primary,
@@ -104,7 +105,7 @@ fun MovieDetailScreen(
                             end = length
                         )
                     },
-                    onClick = { uriHandler.openUri(IMDB_BASE_URL+selectedMovieUiState.movie.imdbId) }
+                    onClick = { uriHandler.openUri(IMDB_BASE_URL+selectedMovieUiState.movieDetail.imdbId) }
                 )
                 Spacer(modifier = Modifier.size(8.dp))
             }

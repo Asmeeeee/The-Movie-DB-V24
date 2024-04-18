@@ -1,11 +1,11 @@
 package com.example.themoviedbv24.model
 
-import androidx.annotation.StringRes
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Movie(
+data class MovieDetail (
+
     @SerialName(value = "id")
     var id: Long = 0L,
 
@@ -23,4 +23,13 @@ data class Movie(
 
     @SerialName(value = "overview")
     var overview: String,
+
+    @SerialName(value = "homepage")
+    var homepage: String,
+
+    @SerialName(value = "imdb_id")
+    var imdbId: String,
+
+    @SerialName(value = "genres")
+    var genres: List<Genre>,
 )

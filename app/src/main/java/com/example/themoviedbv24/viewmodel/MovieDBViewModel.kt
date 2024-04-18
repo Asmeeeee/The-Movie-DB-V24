@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.themoviedbv24.MovieDBApplication
 import com.example.themoviedbv24.database.MoviesRepository
 import com.example.themoviedbv24.model.Movie
+import com.example.themoviedbv24.model.MovieDetail
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -22,7 +23,7 @@ sealed interface MovieListUiState {
 }
 
 sealed interface SelectedMovieUiState {
-    data class Success(val movie: Movie) : SelectedMovieUiState
+    data class Success(val movieDetail: MovieDetail) : SelectedMovieUiState
     object Error : SelectedMovieUiState
     object Loading : SelectedMovieUiState
 }
@@ -65,11 +66,11 @@ class MovieDBViewModel(private val moviesRepository: MoviesRepository) : ViewMod
         }
     }
 
-    fun setSelectedMovie(movie: Movie) {
+    fun setSelectedMovieDetail(movie: Movie) {
         viewModelScope.launch {
             selectedMovieUiState = SelectedMovieUiState.Loading
             selectedMovieUiState = try {
-                SelectedMovieUiState.Success(movie)
+                SelectedMovieUiState.Success(moviesRepository.getMovieDetail(movie.id))
             } catch (e: IOException) {
                 SelectedMovieUiState.Error
             } catch (e: HttpException) {
