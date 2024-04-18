@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,7 +28,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.themoviedbv24.ui.screens.MovieDetailScreen
-import com.example.themoviedbv24.ui.screens.MovieEmptyScreen
+import com.example.themoviedbv24.ui.screens.MovieExtraScreen
 import com.example.themoviedbv24.ui.screens.MovieGridLayoutScreen
 import com.example.themoviedbv24.ui.screens.MovieListScreen
 import com.example.themoviedbv24.viewmodel.MovieDBViewModel
@@ -38,7 +37,7 @@ enum class MovieDBScreen(@StringRes val title: Int) {
     List(title = R.string.popular_movies),
     Grid(title = R.string.popular_movies),
     Detail(title = R.string.movie_detail),
-    Empty(title = R.string.movie_Empty),
+    Extra(title = R.string.movie_extra_data),
 }
 
 
@@ -83,7 +82,7 @@ fun MovieDBAppBar(
                     )
                 }
             }
-            if(currentScreen.name != MovieDBScreen.Empty.name){
+            if(currentScreen.name == MovieDBScreen.Detail.name){
                 IconButton(onClick = {
                     navigateToEmptyScreen()
                 }) {
@@ -115,7 +114,7 @@ fun MovieDBApp(
                 canNavigateBack = navController.previousBackStackEntry != null && currentScreen.name != MovieDBScreen.List.name && currentScreen.name != MovieDBScreen.Grid.name,
                 navigateUp = { navController.navigateUp() },
                 navigateToListScreen = { navController.navigate(MovieDBScreen.List.name) },
-                navigateToEmptyScreen = { navController.navigate(MovieDBScreen.Empty.name) },
+                navigateToEmptyScreen = { navController.navigate(MovieDBScreen.Extra.name) },
                 navigateToGridScreen = { navController.navigate(MovieDBScreen.Grid.name) }
             )
         }
@@ -141,15 +140,6 @@ fun MovieDBApp(
                         .padding(16.dp)
                 )
             }
-            composable(route = MovieDBScreen.Detail.name) {
-                MovieDetailScreen(
-                    selectedMovieUiState = movieDBViewModel.selectedMovieUiState,
-                    modifier = Modifier
-                )
-            }
-            composable(route = MovieDBScreen.Empty.name){
-                MovieEmptyScreen(modifier = Modifier)
-            }
             composable(route = MovieDBScreen.Grid.name){
                 MovieGridLayoutScreen(
                     movieListUiState = movieDBViewModel.movieListUiState,
@@ -161,6 +151,17 @@ fun MovieDBApp(
                         .fillMaxSize()
                         .padding(innerPadding)
                 )
+            }
+            composable(route = MovieDBScreen.Detail.name) {
+                MovieDetailScreen(
+                    selectedMovieUiState = movieDBViewModel.selectedMovieUiState,
+                    modifier = Modifier
+                )
+            }
+            composable(route = MovieDBScreen.Extra.name){
+                MovieExtraScreen(
+                    selectedMovieExtraUiState = movieDBViewModel.selectedMovieExtraUiState,
+                    modifier = Modifier)
             }
         }
     }

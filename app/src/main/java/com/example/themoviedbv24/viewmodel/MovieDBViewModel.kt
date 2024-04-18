@@ -12,6 +12,8 @@ import com.example.themoviedbv24.MovieDBApplication
 import com.example.themoviedbv24.database.MoviesRepository
 import com.example.themoviedbv24.model.Movie
 import com.example.themoviedbv24.model.MovieDetail
+import com.example.themoviedbv24.model.MovieResponse
+import com.example.themoviedbv24.model.MovieReviews
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -28,12 +30,21 @@ sealed interface SelectedMovieUiState {
     object Loading : SelectedMovieUiState
 }
 
+sealed interface SelectedMovieExtraUiState {
+    data class Success(val movieDetail: List<MovieReviews>) : SelectedMovieExtraUiState
+    object Error : SelectedMovieExtraUiState
+    object Loading : SelectedMovieExtraUiState
+}
+
 class MovieDBViewModel(private val moviesRepository: MoviesRepository) : ViewModel() {
 
     var movieListUiState: MovieListUiState by mutableStateOf(MovieListUiState.Loading)
         private set
 
     var selectedMovieUiState: SelectedMovieUiState by mutableStateOf(SelectedMovieUiState.Loading)
+        private set
+
+    var selectedMovieExtraUiState: SelectedMovieExtraUiState by mutableStateOf(SelectedMovieExtraUiState.Loading)
         private set
 
     init {
@@ -75,6 +86,19 @@ class MovieDBViewModel(private val moviesRepository: MoviesRepository) : ViewMod
                 SelectedMovieUiState.Error
             } catch (e: HttpException) {
                 SelectedMovieUiState.Error
+            }
+        }
+    }
+
+    fun setSelectedMovieExtraUiState(movie: Movie) {
+        viewModelScope.launch {
+            selectedMovieExtraUiState = SelectedMovieExtraUiState.Loading
+            selectedMovieExtraUiState = try {
+                SelectedMovieExtraUiState.Success(moviesRepository.getMovieReviews(movie.id).results)
+            } catch (e: IOException) {
+                SelectedMovieExtraUiState.Error
+            } catch (e: HttpException) {
+                SelectedMovieExtraUiState.Error
             }
         }
     }
