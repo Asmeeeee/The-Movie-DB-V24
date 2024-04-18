@@ -95,8 +95,8 @@ fun MovieGridItemCard(movie: Movie,
                 model = Constants.POSTER_IMAGE_BASE_URL + Constants.POSTER_IMAGE_WIDTH + movie.posterPath,
                 contentDescription = movie.title,
                 modifier = Modifier
-                    .width(92.dp)
-                    .height(138.dp),
+                    .width(138.dp)
+                    .height(207.dp),
                 contentScale = ContentScale.Crop
             )
             Text(

@@ -76,6 +76,21 @@ fun MovieDetailScreen(
                 Spacer(modifier = Modifier.size(8.dp))
                 ClickableText(
                     text = buildAnnotatedString {
+                        append(IMDB_BASE_URL+selectedMovieUiState.movieDetail.imdbId)
+                        addStyle(
+                            style = SpanStyle(
+                                color = MaterialTheme.colorScheme.primary,
+                                textDecoration = TextDecoration.Underline
+                            ),
+                            start = 0,
+                            end = length
+                        )
+                    },
+                    onClick = { uriHandler.openUri(IMDB_BASE_URL+selectedMovieUiState.movieDetail.imdbId) }
+                )
+                Spacer(modifier = Modifier.size(8.dp))
+                ClickableText(
+                    text = buildAnnotatedString {
                         append(selectedMovieUiState.movieDetail.homepage)
                         addStyle(
                             style = SpanStyle(
@@ -91,21 +106,6 @@ fun MovieDetailScreen(
                             it1
                         )
                     } }
-                )
-                Spacer(modifier = Modifier.size(8.dp))
-                ClickableText(
-                    text = buildAnnotatedString {
-                        append(IMDB_BASE_URL+selectedMovieUiState.movieDetail.imdbId)
-                        addStyle(
-                            style = SpanStyle(
-                                color = MaterialTheme.colorScheme.primary,
-                                textDecoration = TextDecoration.Underline
-                            ),
-                            start = 0,
-                            end = length
-                        )
-                    },
-                    onClick = { uriHandler.openUri(IMDB_BASE_URL+selectedMovieUiState.movieDetail.imdbId) }
                 )
                 Spacer(modifier = Modifier.size(8.dp))
             }
