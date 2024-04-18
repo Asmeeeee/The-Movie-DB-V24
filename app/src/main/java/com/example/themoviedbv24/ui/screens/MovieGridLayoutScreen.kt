@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,6 +21,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
@@ -27,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.themoviedbv24.model.Movie
+import com.example.themoviedbv24.ui.theme.TheMovieDBV24Theme
 import com.example.themoviedbv24.utils.Constants
 import com.example.themoviedbv24.viewmodel.MovieListUiState
 
@@ -84,22 +87,42 @@ fun MovieGridItemCard(movie: Movie,
             onMovieGridItemClicked(movie)
         }
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
+        Column(
+            modifier = modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Box(
-                modifier = Modifier.padding(8.dp)
-            ) {
-                AsyncImage(
-                    model = Constants.POSTER_IMAGE_BASE_URL + Constants.POSTER_IMAGE_WIDTH + movie.posterPath,
-                    contentDescription = movie.title,
-                    modifier = Modifier
-                        .width(92.dp)
-                        .height(138.dp),
-                    contentScale = ContentScale.Crop
-                )
-            }
+            AsyncImage(
+                model = Constants.POSTER_IMAGE_BASE_URL + Constants.POSTER_IMAGE_WIDTH + movie.posterPath,
+                contentDescription = movie.title,
+                modifier = Modifier
+                    .width(92.dp)
+                    .height(138.dp),
+                contentScale = ContentScale.Crop
+            )
+            Text(
+                text = movie.title,
+                style = MaterialTheme.typography.bodyLarge,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MovieGridItemCardPreview() {
+    TheMovieDBV24Theme {
+        MovieGridItemCard(
+            movie = Movie(
+                id=693134,
+                backdropPath = "er",
+                overview = "sd",
+                posterPath = "/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg",
+                releaseDate = "2024-02-27",
+                title = "r"
+            ),
+            onMovieGridItemClicked = {}
+        )
     }
 }
