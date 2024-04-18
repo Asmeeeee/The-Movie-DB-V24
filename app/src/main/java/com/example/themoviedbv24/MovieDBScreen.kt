@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -66,12 +68,22 @@ fun MovieDBAppBar(
             }
         },
         actions = {
+            if(currentScreen.name == MovieDBScreen.List.name){
+                IconButton(onClick = {
+                    // TODO
+                }) {
+                    Icon(
+                        imageVector = Icons.Filled.Menu,
+                        contentDescription = stringResource(id = R.string.more_vert)
+                    )
+                }
+            }
             if(currentScreen.name != MovieDBScreen.Empty.name){
                 IconButton(onClick = {
                     navigateToEmptyScreen()
                 }) {
                     Icon(
-                        imageVector = Icons.Filled.MoreVert,
+                        imageVector = Icons.Filled.Star,
                         contentDescription = stringResource(id = R.string.more_vert)
                     )
                 }
