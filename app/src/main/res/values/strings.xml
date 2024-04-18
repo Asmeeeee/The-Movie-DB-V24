@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">The Movie DB V24</string>
     <string name="movie_detail">Movie Details</string>
+    <string name="popular_movies">Popular Movies</string>
     <string name="back_button">Back</string>
     <string name="more_vert">More</string>
     <string name="movie_Empty">Movie Empty</string>

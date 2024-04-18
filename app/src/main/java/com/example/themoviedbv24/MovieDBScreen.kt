@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Star
@@ -34,8 +35,8 @@ import com.example.themoviedbv24.ui.screens.MovieListScreen
 import com.example.themoviedbv24.viewmodel.MovieDBViewModel
 
 enum class MovieDBScreen(@StringRes val title: Int) {
-    List(title = R.string.app_name),
-    Grid(title = R.string.app_name),
+    List(title = R.string.popular_movies),
+    Grid(title = R.string.popular_movies),
     Detail(title = R.string.movie_detail),
     Empty(title = R.string.movie_Empty),
 }
@@ -77,7 +78,7 @@ fun MovieDBAppBar(
                     if(currentScreen.name == MovieDBScreen.List.name) navigateToGridScreen() else navigateToListScreen()
                 }) {
                     Icon(
-                        imageVector = Icons.Filled.Menu,
+                        imageVector = if(currentScreen.name == MovieDBScreen.List.name) Icons.Filled.MoreVert else Icons.Filled.List ,
                         contentDescription = stringResource(id = R.string.more_vert)
                     )
                 }
@@ -123,7 +124,7 @@ fun MovieDBApp(
 
         NavHost(
             navController = navController,
-            startDestination = MovieDBScreen.List.name,
+            startDestination = MovieDBScreen.Grid.name,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
