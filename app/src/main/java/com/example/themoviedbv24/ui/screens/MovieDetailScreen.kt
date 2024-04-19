@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material3.Badge
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,6 +36,7 @@ import com.example.themoviedbv24.utils.Constants.IMDB_BASE_URL
 import com.example.themoviedbv24.viewmodel.SelectedMovieUiState
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MovieDetailScreen(
     selectedMovieUiState: SelectedMovieUiState,
@@ -61,10 +64,7 @@ fun MovieDetailScreen(
                 Spacer(modifier = Modifier.size(8.dp))
                 Row{
                     selectedMovieUiState.movieDetail.genres.forEach { genre ->
-                        Text(
-                            text = genre.name,
-                            style = MaterialTheme.typography.bodySmall
-                        )
+                        Badge{ Text(text = genre.name,) }
                         Spacer(modifier = Modifier.size(8.dp))
                     }
                 }
@@ -81,39 +81,19 @@ fun MovieDetailScreen(
                     overflow = TextOverflow.Ellipsis,
                 )
                 Spacer(modifier = Modifier.size(8.dp))
-                ClickableText(
-                    text = buildAnnotatedString {
-                        append(IMDB_BASE_URL+selectedMovieUiState.movieDetail.imdbId)
-                        addStyle(
-                            style = SpanStyle(
-                                color = MaterialTheme.colorScheme.primary,
-                                textDecoration = TextDecoration.Underline
-                            ),
-                            start = 0,
-                            end = length
-                        )
-                    },
-                    onClick = { uriHandler.openUri(IMDB_BASE_URL+selectedMovieUiState.movieDetail.imdbId) }
-                )
+                Button(
+                    onClick = { uriHandler.openUri(IMDB_BASE_URL+selectedMovieUiState.movieDetail.imdbId) },
+                    modifier = modifier.fillMaxWidth()) {
+                    Text(text = "link IMDB")
+                }
                 Spacer(modifier = Modifier.size(8.dp))
-                ClickableText(
-                    text = buildAnnotatedString {
-                        append(selectedMovieUiState.movieDetail.homepage)
-                        addStyle(
-                            style = SpanStyle(
-                                color = MaterialTheme.colorScheme.primary,
-                                textDecoration = TextDecoration.Underline
-                            ),
-                            start = 0,
-                            end = length
-                        )
-                    },
-                    onClick = { selectedMovieUiState.movieDetail.homepage?.let { it1 ->
-                        uriHandler.openUri(
-                            it1
-                        )
-                    } }
-                )
+                if(selectedMovieUiState.movieDetail.homepage.isNotEmpty()){
+                    Button(
+                        onClick = { uriHandler.openUri(selectedMovieUiState.movieDetail.homepage) },
+                        modifier = modifier.fillMaxWidth()) {
+                        Text(text = "link HomePage")
+                    }
+                }
                 Spacer(modifier = Modifier.size(8.dp))
             }
         }

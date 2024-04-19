@@ -143,7 +143,23 @@ fun MovieReviewItemCard(
 fun MovieVideoItemCard(
     movieVideo: MovieVideo,
     modifier: Modifier = Modifier){
-    Text(text = "movieVideo")
+    Card(
+        modifier = modifier,
+    ) {
+        Column(
+            modifier = modifier
+                .width(200.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                modifier = modifier
+                    .verticalScroll(rememberScrollState())
+                    .weight(weight = 1f, fill = false),
+                text = movieVideo.name,
+                style = MaterialTheme.typography.bodySmall,
+            )
+        }
+    }
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
