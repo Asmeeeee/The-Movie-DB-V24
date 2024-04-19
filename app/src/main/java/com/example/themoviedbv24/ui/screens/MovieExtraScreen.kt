@@ -1,5 +1,8 @@
 package com.example.themoviedbv24.ui.screens
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,12 +19,14 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Badge
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.runtime.ComposableOpenTarget
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalUriHandler
 import com.example.themoviedbv24.model.MovieReviews
 import com.example.themoviedbv24.model.MovieVideo
+import com.example.themoviedbv24.utils.Constants
 import com.example.themoviedbv24.viewmodel.SelectedMovieVideosUiState
 
 @Composable
@@ -99,6 +104,7 @@ fun MovieExtraScreen(
 fun MovieReviewItemCard(
     movieReviews: MovieReviews,
     modifier: Modifier = Modifier){
+    val uriHandler = LocalUriHandler.current
     Card(
         modifier = modifier,
     ) {
@@ -115,7 +121,9 @@ fun MovieReviewItemCard(
                 style = MaterialTheme.typography.bodySmall,
                 //overflow = TextOverflow.Ellipsis
             )
-            Button(onClick = { /*TODO*/ }, modifier = modifier.fillMaxWidth()) {
+            Button(
+                onClick = { uriHandler.openUri(movieReviews.url) },
+                modifier = modifier.fillMaxWidth()) {
                 Text(text = "link review")
             }
         }
@@ -127,4 +135,9 @@ fun MovieVideoItemCard(
     movieVideo: MovieVideo,
     modifier: Modifier = Modifier){
     Text(text = "movieVideo")
+}
+
+private fun openLink(context: Context, url: String) {
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    context.startActivity(intent)
 }

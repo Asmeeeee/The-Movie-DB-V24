@@ -13,5 +13,8 @@ data class MovieReviews(
     var content: String,
 
     @SerialName(value = "url")
-    var url: String
+    var url: String,
+
+    @SerialName(value = "updated_at")
+    var updated_at: String
 )
