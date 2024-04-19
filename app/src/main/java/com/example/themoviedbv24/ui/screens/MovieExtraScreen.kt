@@ -29,6 +29,7 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MovieExtraScreen(
     selectedMovieReviewsUiState: SelectedMovieReviewsUiState,
@@ -41,14 +42,15 @@ fun MovieExtraScreen(
             rows = GridCells.Fixed(1),
             modifier = Modifier.weight(1f)
         ) {
-            when(selectedMovieReviewsUiState){
+            when (selectedMovieReviewsUiState) {
                 is SelectedMovieReviewsUiState.Success -> {
                     items(selectedMovieReviewsUiState.movieReviewsList) { movieReview ->
                         MovieReviewItemCard(movieReview, modifier)
                     }
                 }
+
                 is SelectedMovieReviewsUiState.Loading -> {
-                    item{
+                    item {
                         Text(
                             text = "Loading...",
                             style = MaterialTheme.typography.bodySmall,
@@ -56,8 +58,9 @@ fun MovieExtraScreen(
                         )
                     }
                 }
+
                 is SelectedMovieReviewsUiState.Error -> {
-                    item{
+                    item {
                         Text(
                             text = "Error...",
                             style = MaterialTheme.typography.bodySmall,
