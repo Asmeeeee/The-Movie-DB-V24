@@ -3,6 +3,8 @@ package com.example.themoviedbv24.ui.screens
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,12 +24,16 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Badge
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalUriHandler
 import com.example.themoviedbv24.model.MovieReviews
 import com.example.themoviedbv24.model.MovieVideo
 import com.example.themoviedbv24.utils.Constants
 import com.example.themoviedbv24.viewmodel.SelectedMovieVideosUiState
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun MovieExtraScreen(
@@ -100,6 +106,8 @@ fun MovieExtraScreen(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MovieReviewItemCard(
     movieReviews: MovieReviews,
@@ -113,6 +121,7 @@ fun MovieReviewItemCard(
                 .width(200.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Badge{ Text(formatDate(movieReviews.updated_at)) }
             Text(
                 modifier = modifier
                     .verticalScroll(rememberScrollState())
@@ -137,7 +146,10 @@ fun MovieVideoItemCard(
     Text(text = "movieVideo")
 }
 
-private fun openLink(context: Context, url: String) {
-    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-    context.startActivity(intent)
+@RequiresApi(Build.VERSION_CODES.O)
+fun formatDate(dateString: String): String {
+    val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")
+    val instant = Instant.from(inputFormatter.parse(dateString))
+    val outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    return outputFormatter.format(instant.atZone(ZoneId.systemDefault()))
 }
