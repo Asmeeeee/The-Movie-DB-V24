@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 data class MovieReviews(
 
     @SerialName(value = "id")
-    var id: Long = 0L,
+    var id: String,
 
     @SerialName(value = "content")
     var content: String,

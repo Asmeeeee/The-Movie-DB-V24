@@ -27,7 +27,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.themoviedbv24.model.MovieDetail
 import com.example.themoviedbv24.ui.screens.MovieDetailScreen
 import com.example.themoviedbv24.ui.screens.MovieExtraScreen
 import com.example.themoviedbv24.ui.screens.MovieGridLayoutScreen
@@ -133,7 +132,9 @@ fun MovieDBApp(
                 MovieListScreen(
                     movieListUiState = movieDBViewModel.movieListUiState,
                     onMovieListItemClicked = {
-                        movieDBViewModel.setSelectedMovieDetail(it)
+                        movieDBViewModel.setSelectedMovieDetail(it.id)
+                        movieDBViewModel.setSelectedMovieExtraUiState(it.id)
+                        movieDBViewModel.setSelectedMovieVideosUiState(it.id)
                         navController.navigate(MovieDBScreen.Detail.name)
                     },
                     modifier = Modifier
@@ -145,7 +146,9 @@ fun MovieDBApp(
                 MovieGridLayoutScreen(
                     movieListUiState = movieDBViewModel.movieListUiState,
                     onMovieListItemClicked = {
-                        movieDBViewModel.setSelectedMovieDetail(it)
+                        movieDBViewModel.setSelectedMovieDetail(it.id)
+                        movieDBViewModel.setSelectedMovieExtraUiState(it.id)
+                        movieDBViewModel.setSelectedMovieVideosUiState(it.id)
                         navController.navigate(MovieDBScreen.Detail.name)
                     },
                     modifier = Modifier
@@ -161,8 +164,10 @@ fun MovieDBApp(
             }
             composable(route = MovieDBScreen.Extra.name){
                 MovieExtraScreen(
-                    selectedMovieExtraUiState = movieDBViewModel.selectedMovieExtraUiState,
-                    modifier = Modifier)
+                    selectedMovieReviewsUiState = movieDBViewModel.selectedMovieReviewsUiState,
+                    selectedMovieVideosUiState = movieDBViewModel.selectedMovieVideosUiState,
+                    modifier = Modifier
+                        .padding(6.dp))
             }
         }
     }

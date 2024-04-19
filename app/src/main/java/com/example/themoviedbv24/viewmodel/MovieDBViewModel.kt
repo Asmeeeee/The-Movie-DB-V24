@@ -12,8 +12,8 @@ import com.example.themoviedbv24.MovieDBApplication
 import com.example.themoviedbv24.database.MoviesRepository
 import com.example.themoviedbv24.model.Movie
 import com.example.themoviedbv24.model.MovieDetail
-import com.example.themoviedbv24.model.MovieResponse
 import com.example.themoviedbv24.model.MovieReviews
+import com.example.themoviedbv24.model.MovieVideo
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -30,11 +30,18 @@ sealed interface SelectedMovieUiState {
     object Loading : SelectedMovieUiState
 }
 
-sealed interface SelectedMovieExtraUiState {
-    data class Success(val movieDetail: List<MovieReviews>) : SelectedMovieExtraUiState
-    object Error : SelectedMovieExtraUiState
-    object Loading : SelectedMovieExtraUiState
+sealed interface SelectedMovieReviewsUiState {
+    data class Success(val movieReviewsList: List<MovieReviews>) : SelectedMovieReviewsUiState
+    object Error : SelectedMovieReviewsUiState
+    object Loading : SelectedMovieReviewsUiState
 }
+
+sealed interface SelectedMovieVideosUiState {
+    data class Success(val movieVideosList: List<MovieVideo>) : SelectedMovieVideosUiState
+    object Error : SelectedMovieVideosUiState
+    object Loading : SelectedMovieVideosUiState
+}
+
 
 class MovieDBViewModel(private val moviesRepository: MoviesRepository) : ViewModel() {
 
@@ -44,7 +51,10 @@ class MovieDBViewModel(private val moviesRepository: MoviesRepository) : ViewMod
     var selectedMovieUiState: SelectedMovieUiState by mutableStateOf(SelectedMovieUiState.Loading)
         private set
 
-    var selectedMovieExtraUiState: SelectedMovieExtraUiState by mutableStateOf(SelectedMovieExtraUiState.Loading)
+    var selectedMovieReviewsUiState: SelectedMovieReviewsUiState by mutableStateOf(SelectedMovieReviewsUiState.Loading)
+        private set
+
+    var selectedMovieVideosUiState: SelectedMovieVideosUiState by mutableStateOf(SelectedMovieVideosUiState.Loading)
         private set
 
     init {
@@ -77,11 +87,11 @@ class MovieDBViewModel(private val moviesRepository: MoviesRepository) : ViewMod
         }
     }
 
-    fun setSelectedMovieDetail(movie: Movie) {
+    fun setSelectedMovieDetail(idMovie: Long) {
         viewModelScope.launch {
             selectedMovieUiState = SelectedMovieUiState.Loading
             selectedMovieUiState = try {
-                SelectedMovieUiState.Success(moviesRepository.getMovieDetail(movie.id))
+                SelectedMovieUiState.Success(moviesRepository.getMovieDetail(idMovie))
             } catch (e: IOException) {
                 SelectedMovieUiState.Error
             } catch (e: HttpException) {
@@ -90,15 +100,28 @@ class MovieDBViewModel(private val moviesRepository: MoviesRepository) : ViewMod
         }
     }
 
-    fun setSelectedMovieExtraUiState(movieDetail: MovieDetail) {
+    fun setSelectedMovieExtraUiState(idMovie: Long) {
         viewModelScope.launch {
-            selectedMovieExtraUiState = SelectedMovieExtraUiState.Loading
-            selectedMovieExtraUiState = try {
-                SelectedMovieExtraUiState.Success(moviesRepository.getMovieReviews(movieDetail.id).results)
+            selectedMovieReviewsUiState = SelectedMovieReviewsUiState.Loading
+            selectedMovieReviewsUiState = try {
+                SelectedMovieReviewsUiState.Success(moviesRepository.getMovieReviews(idMovie).results)
             } catch (e: IOException) {
-                SelectedMovieExtraUiState.Error
+                SelectedMovieReviewsUiState.Error
             } catch (e: HttpException) {
-                SelectedMovieExtraUiState.Error
+                SelectedMovieReviewsUiState.Error
+            }
+        }
+    }
+
+    fun setSelectedMovieVideosUiState(idMovie: Long) {
+        viewModelScope.launch {
+            selectedMovieVideosUiState = SelectedMovieVideosUiState.Loading
+            selectedMovieVideosUiState = try {
+                SelectedMovieVideosUiState.Success(moviesRepository.getMovieVideos(idMovie).results)
+            } catch (e: IOException) {
+                SelectedMovieVideosUiState.Error
+            } catch (e: HttpException) {
+                SelectedMovieVideosUiState.Error
             }
         }
     }

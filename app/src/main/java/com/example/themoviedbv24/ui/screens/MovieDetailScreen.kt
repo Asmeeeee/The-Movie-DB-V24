@@ -10,12 +10,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -23,6 +25,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.example.themoviedbv24.R
 import com.example.themoviedbv24.database.MoviesRepository
 import com.example.themoviedbv24.model.Movie
 import com.example.themoviedbv24.model.MovieDetail
@@ -40,7 +43,10 @@ fun MovieDetailScreen(
         is SelectedMovieUiState.Success -> {
             val uriHandler = LocalUriHandler.current
             Column(Modifier.width(IntrinsicSize.Max)) {
-                Box(Modifier.fillMaxWidth().padding(0.dp)) {
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp)) {
                     AsyncImage(
                         model = Constants.BACKDROP_IMAGE_BASE_URL + Constants.BACKDROP_IMAGE_WIDTH + selectedMovieUiState.movieDetail.backdropPath,
                         contentDescription = selectedMovieUiState.movieDetail.title,
