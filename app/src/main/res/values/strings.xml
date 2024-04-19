@@ -5,4 +5,6 @@
     <string name="back_button">Back</string>
     <string name="more_vert">More</string>
     <string name="movie_extra_data">Extra Data</string>
+    <string name="open_imdb">Open IMDB</string>
+    <string name="open_homepage">Open Homepage</string>
 </resources>

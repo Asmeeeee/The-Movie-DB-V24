@@ -84,14 +84,14 @@ fun MovieDetailScreen(
                 Button(
                     onClick = { uriHandler.openUri(IMDB_BASE_URL+selectedMovieUiState.movieDetail.imdbId) },
                     modifier = modifier.fillMaxWidth()) {
-                    Text(text = "link IMDB")
+                    Text(text = stringResource(id = R.string.open_imdb))
                 }
                 Spacer(modifier = Modifier.size(8.dp))
                 if(selectedMovieUiState.movieDetail.homepage.isNotEmpty()){
                     Button(
                         onClick = { uriHandler.openUri(selectedMovieUiState.movieDetail.homepage) },
                         modifier = modifier.fillMaxWidth()) {
-                        Text(text = "link HomePage")
+                        Text(text = stringResource(id = R.string.open_homepage))
                     }
                 }
                 Spacer(modifier = Modifier.size(8.dp))

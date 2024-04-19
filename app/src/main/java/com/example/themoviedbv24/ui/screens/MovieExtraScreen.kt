@@ -1,13 +1,9 @@
 package com.example.themoviedbv24.ui.screens
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
@@ -22,14 +18,12 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Badge
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalUriHandler
 import com.example.themoviedbv24.model.MovieReviews
 import com.example.themoviedbv24.model.MovieVideo
-import com.example.themoviedbv24.utils.Constants
 import com.example.themoviedbv24.viewmodel.SelectedMovieVideosUiState
 import java.time.Instant
 import java.time.ZoneId
@@ -118,7 +112,8 @@ fun MovieReviewItemCard(
     ) {
         Column(
             modifier = modifier
-                .width(200.dp),
+                .width(200.dp)
+                .fillMaxHeight(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Badge{ Text(formatDate(movieReviews.updated_at)) }
@@ -127,14 +122,8 @@ fun MovieReviewItemCard(
                     .verticalScroll(rememberScrollState())
                     .weight(weight = 1f, fill = false),
                 text = movieReviews.content,
-                style = MaterialTheme.typography.bodySmall,
-                //overflow = TextOverflow.Ellipsis
+                style = MaterialTheme.typography.bodySmall
             )
-            Button(
-                onClick = { uriHandler.openUri(movieReviews.url) },
-                modifier = modifier.fillMaxWidth()) {
-                Text(text = "link review")
-            }
         }
     }
 }
