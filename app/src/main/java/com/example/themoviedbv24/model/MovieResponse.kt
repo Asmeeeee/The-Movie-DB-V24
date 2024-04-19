@@ -4,12 +4,12 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MovieResponse(
+data class MovieResponse<T>(
     @SerialName(value = "page")
     var page: Int = 0,
 
     @SerialName(value = "results")
-    var results: List<Movie> = listOf(),
+    var results: List<T> = listOf(),
 
     @SerialName(value = "total_pages")
     var total_pages: Int = 0,

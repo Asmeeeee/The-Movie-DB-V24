@@ -27,6 +27,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.themoviedbv24.model.MovieDetail
 import com.example.themoviedbv24.ui.screens.MovieDetailScreen
 import com.example.themoviedbv24.ui.screens.MovieExtraScreen
 import com.example.themoviedbv24.ui.screens.MovieGridLayoutScreen
@@ -51,7 +52,7 @@ fun MovieDBAppBar(
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
     navigateToListScreen: () -> Unit,
-    navigateToEmptyScreen: () -> Unit,
+    navigateToExtraScreen: () -> Unit,
     navigateToGridScreen: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -84,7 +85,7 @@ fun MovieDBAppBar(
             }
             if(currentScreen.name == MovieDBScreen.Detail.name){
                 IconButton(onClick = {
-                    navigateToEmptyScreen()
+                    navigateToExtraScreen()
                 }) {
                     Icon(
                         imageVector = Icons.Filled.Star,
@@ -114,7 +115,7 @@ fun MovieDBApp(
                 canNavigateBack = navController.previousBackStackEntry != null && currentScreen.name != MovieDBScreen.List.name && currentScreen.name != MovieDBScreen.Grid.name,
                 navigateUp = { navController.navigateUp() },
                 navigateToListScreen = { navController.navigate(MovieDBScreen.List.name) },
-                navigateToEmptyScreen = { navController.navigate(MovieDBScreen.Extra.name) },
+                navigateToExtraScreen = { navController.navigate(MovieDBScreen.Extra.name) },
                 navigateToGridScreen = { navController.navigate(MovieDBScreen.Grid.name) }
             )
         }

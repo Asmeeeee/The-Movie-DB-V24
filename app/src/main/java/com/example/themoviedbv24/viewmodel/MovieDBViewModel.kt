@@ -90,11 +90,11 @@ class MovieDBViewModel(private val moviesRepository: MoviesRepository) : ViewMod
         }
     }
 
-    fun setSelectedMovieExtraUiState(movie: Movie) {
+    fun setSelectedMovieExtraUiState(movieDetail: MovieDetail) {
         viewModelScope.launch {
             selectedMovieExtraUiState = SelectedMovieExtraUiState.Loading
             selectedMovieExtraUiState = try {
-                SelectedMovieExtraUiState.Success(moviesRepository.getMovieReviews(movie.id).results)
+                SelectedMovieExtraUiState.Success(moviesRepository.getMovieReviews(movieDetail.id).results)
             } catch (e: IOException) {
                 SelectedMovieExtraUiState.Error
             } catch (e: HttpException) {

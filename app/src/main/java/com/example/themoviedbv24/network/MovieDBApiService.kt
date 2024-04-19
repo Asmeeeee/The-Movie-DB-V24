@@ -1,8 +1,9 @@
 package com.example.themoviedbv24.network
 
+import com.example.themoviedbv24.model.Movie
 import com.example.themoviedbv24.model.MovieDetail
 import com.example.themoviedbv24.model.MovieResponse
-import com.example.themoviedbv24.model.MovieResponseReviews
+import com.example.themoviedbv24.model.MovieReviews
 import com.example.themoviedbv24.utils.Constants
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -14,12 +15,12 @@ interface MovieDBApiService {
     suspend fun getPopularMovies(
         @Query("api_key")
         apiKey: String = Constants.API_KEY
-    ): MovieResponse
+    ): MovieResponse<Movie>
     @GET("top_rated")
     suspend fun getTopRatedMovies(
         @Query("api_key")
         apiKey: String = Constants.API_KEY
-    ): MovieResponse
+    ): MovieResponse<Movie>
 
     @GET("{id}")
     suspend fun getMovieDetail(
@@ -31,5 +32,5 @@ interface MovieDBApiService {
     suspend fun getMovieReviews(
         @Path("id") movieId: Long,
         @Query("api_key") apiKey: String = Constants.API_KEY
-    ): MovieResponseReviews
+    ): MovieResponse<MovieReviews>
 }

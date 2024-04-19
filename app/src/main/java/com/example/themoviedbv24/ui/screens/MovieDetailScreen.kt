@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.themoviedbv24.database.MoviesRepository
 import com.example.themoviedbv24.model.Movie
+import com.example.themoviedbv24.model.MovieDetail
 import com.example.themoviedbv24.utils.Constants
 import com.example.themoviedbv24.utils.Constants.IMDB_BASE_URL
 import com.example.themoviedbv24.viewmodel.SelectedMovieUiState
