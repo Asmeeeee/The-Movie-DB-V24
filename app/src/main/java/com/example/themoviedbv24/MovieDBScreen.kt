@@ -1,12 +1,14 @@
 package com.example.themoviedbv24
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -77,12 +79,20 @@ fun MovieDBAppBar(
                     if(currentScreen.name == MovieDBScreen.List.name) navigateToGridScreen() else navigateToListScreen()
                 }) {
                     Icon(
-                        imageVector = if(currentScreen.name == MovieDBScreen.List.name) Icons.Filled.MoreVert else Icons.Filled.List ,
+                        imageVector = Icons.Filled.List ,
                         contentDescription = stringResource(id = R.string.more_vert)
                     )
                 }
             }
             if(currentScreen.name == MovieDBScreen.Detail.name){
+                IconButton(onClick = {
+                    /*TODO*/
+                }) {
+                    Icon(
+                        imageVector = Icons.Filled.FavoriteBorder,
+                        contentDescription = stringResource(id = R.string.more_vert)
+                    )
+                }
                 IconButton(onClick = {
                     navigateToExtraScreen()
                 }) {
@@ -96,6 +106,7 @@ fun MovieDBAppBar(
     )
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MovieDBApp(
     navController: NavHostController = rememberNavController()
@@ -158,6 +169,7 @@ fun MovieDBApp(
             }
             composable(route = MovieDBScreen.Detail.name) {
                 MovieDetailScreen(
+                    movieDBViewModel = movieDBViewModel,
                     selectedMovieUiState = movieDBViewModel.selectedMovieUiState,
                     modifier = Modifier
                 )

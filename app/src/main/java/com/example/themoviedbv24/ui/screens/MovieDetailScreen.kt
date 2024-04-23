@@ -14,6 +14,7 @@ import androidx.compose.material3.Badge
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -33,15 +34,18 @@ import com.example.themoviedbv24.model.Movie
 import com.example.themoviedbv24.model.MovieDetail
 import com.example.themoviedbv24.utils.Constants
 import com.example.themoviedbv24.utils.Constants.IMDB_BASE_URL
+import com.example.themoviedbv24.viewmodel.MovieDBViewModel
 import com.example.themoviedbv24.viewmodel.SelectedMovieUiState
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MovieDetailScreen(
+    movieDBViewModel: MovieDBViewModel,
     selectedMovieUiState: SelectedMovieUiState,
     modifier: Modifier = Modifier
 ) {
+    val selectedMovieUiState = movieDBViewModel.selectedMovieUiState
     when (selectedMovieUiState) {
         is SelectedMovieUiState.Success -> {
             val uriHandler = LocalUriHandler.current
@@ -93,6 +97,16 @@ fun MovieDetailScreen(
                         modifier = modifier.fillMaxWidth()) {
                         Text(text = stringResource(id = R.string.open_homepage))
                     }
+                }
+                Row {
+                    Text(text = "Favorite", style = MaterialTheme.typography.bodyLarge)
+                    Switch(checked = selectedMovieUiState.is_Favorite, onCheckedChange = {
+                        if(it){
+                            //movieDBViewModel.saveMovie(movieDBViewModel.)
+                        }else{
+                            //movieDBViewModel.deleteMovie(selectedMovieUiState.movieDetail)
+                        }
+                    })
                 }
                 Spacer(modifier = Modifier.size(8.dp))
             }
