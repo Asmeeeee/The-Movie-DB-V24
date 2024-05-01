@@ -8,8 +8,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,6 +24,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -55,8 +62,10 @@ fun MovieDBAppBar(
     navigateToListScreen: () -> Unit,
     navigateToExtraScreen: () -> Unit,
     navigateToGridScreen: () -> Unit,
+    movieDBViewModel: MovieDBViewModel,
     modifier: Modifier = Modifier
 ) {
+    var menuExpanded by remember { mutableStateOf(false) }
     TopAppBar(
         title = { Text(stringResource(currentScreen.title)) },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
@@ -74,7 +83,7 @@ fun MovieDBAppBar(
             }
         },
         actions = {
-            if(currentScreen.name == MovieDBScreen.List.name || currentScreen.name == MovieDBScreen.Grid.name){
+            if (currentScreen.name == MovieDBScreen.List.name || currentScreen.name == MovieDBScreen.Grid.name) {
                 IconButton(onClick = {
                     if(currentScreen.name == MovieDBScreen.List.name) navigateToGridScreen() else navigateToListScreen()
                 }) {
@@ -83,22 +92,54 @@ fun MovieDBAppBar(
                         contentDescription = stringResource(id = R.string.more_vert)
                     )
                 }
-            }
-            if(currentScreen.name == MovieDBScreen.Detail.name){
                 IconButton(onClick = {
-                    /*TODO*/
+                    menuExpanded = !menuExpanded
                 }) {
                     Icon(
-                        imageVector = Icons.Filled.FavoriteBorder,
-                        contentDescription = stringResource(id = R.string.more_vert)
+                        imageVector = Icons.Filled.MoreVert,
+                        contentDescription = "Open Menu to select different movie lists"
                     )
                 }
+                DropdownMenu(expanded = menuExpanded, onDismissRequest = { menuExpanded = false }) {
+                    DropdownMenuItem(
+                        onClick = {
+                            movieDBViewModel.getPopularMovies()
+                            menuExpanded = false
+
+                        },
+                        text = {
+                            Text(stringResource(R.string.popular_movies))
+                        }
+                    )
+                    DropdownMenuItem(
+                        onClick = {
+                            movieDBViewModel.getTopRatedMovies()
+                            menuExpanded = false
+
+                        },
+                        text = {
+                            Text(stringResource(R.string.top_rated_movies))
+                        }
+                    )
+                    DropdownMenuItem(
+                        onClick = {
+                            movieDBViewModel.getSavedMovies()
+                            menuExpanded = false
+
+                        },
+                        text = {
+                            Text(stringResource(R.string.saved_movies))
+                        }
+                    )
+                }
+            }
+            if(currentScreen.name == MovieDBScreen.Detail.name){
                 IconButton(onClick = {
                     navigateToExtraScreen()
                 }) {
                     Icon(
-                        imageVector = Icons.Filled.Star,
-                        contentDescription = stringResource(id = R.string.more_vert)
+                        imageVector = Icons.Filled.Info,
+                        contentDescription = stringResource(id = R.string.info)
                     )
                 }
             }
@@ -118,6 +159,8 @@ fun MovieDBApp(
         backStackEntry?.destination?.route ?: MovieDBScreen.List.name
     )
 
+    val movieDBViewModel: MovieDBViewModel = viewModel(factory = MovieDBViewModel.Factory)
+
     Scaffold(
         topBar = {
             MovieDBAppBar(
@@ -126,7 +169,8 @@ fun MovieDBApp(
                 navigateUp = { navController.navigateUp() },
                 navigateToListScreen = { navController.navigate(MovieDBScreen.List.name) },
                 navigateToExtraScreen = { navController.navigate(MovieDBScreen.Extra.name) },
-                navigateToGridScreen = { navController.navigate(MovieDBScreen.Grid.name) }
+                navigateToGridScreen = { navController.navigate(MovieDBScreen.Grid.name) },
+                movieDBViewModel = movieDBViewModel
             )
         }
     ) { innerPadding ->

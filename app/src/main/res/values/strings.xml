@@ -7,4 +7,8 @@
     <string name="movie_extra_data">Extra Data</string>
     <string name="open_imdb">Open IMDB</string>
     <string name="open_homepage">Open Homepage</string>
+    <string name="top_rated_movies">Top rated movies</string>
+    <string name="saved_movies">Saved movies</string>
+    <string name="info">Info</string>
+    <string name="favorite">Favorite</string>
 </resources>

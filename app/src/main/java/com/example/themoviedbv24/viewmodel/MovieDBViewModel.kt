@@ -1,5 +1,6 @@
 package com.example.themoviedbv24.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -63,7 +64,7 @@ class MovieDBViewModel(private val moviesRepository: MoviesRepository, private v
         getPopularMovies()
     }
 
-    private fun getTopRatedMovies() {
+    fun getTopRatedMovies() {
         viewModelScope.launch {
             movieListUiState = MovieListUiState.Loading
             movieListUiState = try {
@@ -142,17 +143,25 @@ class MovieDBViewModel(private val moviesRepository: MoviesRepository, private v
         }
     }
 
-    fun saveMovie(movie: Movie){
+    fun saveMovie(movieDetail: MovieDetail){
         viewModelScope.launch {
-            savedMovieRepository.inserMovie(movie)
-            //selectedMovieUiState = SelectedMovieUiState.Success(movie, true)
+            movieListUiState = MovieListUiState.Loading
+            try{
+                savedMovieRepository.inserMovie(movieDetail.toMovie())
+                selectedMovieUiState = SelectedMovieUiState.Success(movieDetail, true)
+            } catch (e: IOException) {
+                MovieListUiState.Error
+            }
+             catch (e: HttpException) {
+                MovieListUiState.Error
+            }
         }
     }
 
-    fun deleteMovie(movie: Movie){
+    fun deleteMovie(movieDetail: MovieDetail){
         viewModelScope.launch {
-            savedMovieRepository.deleteMovie(movie.id)
-            //selectedMovieUiState = SelectedMovieUiState.Success(movieDetail, false)
+            savedMovieRepository.deleteMovie(movieDetail.id)
+            selectedMovieUiState = SelectedMovieUiState.Success(movieDetail, false)
         }
     }
 

@@ -32,4 +32,15 @@ data class MovieDetail (
 
     @SerialName(value = "genres")
     var genres: List<Genre>,
-)
+){
+    fun toMovie(): Movie {
+        return Movie(
+            id = this.id,
+            title = this.title,
+            posterPath = this.posterPath,
+            backdropPath = this.backdropPath,
+            releaseDate = this.releaseDate,
+            overview = this.overview
+        )
+    }
+}

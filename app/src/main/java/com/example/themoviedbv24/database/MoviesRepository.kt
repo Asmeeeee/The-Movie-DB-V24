@@ -14,6 +14,7 @@ interface MoviesRepository {
     suspend fun getMovieDetail(id: Long): MovieDetail
     suspend fun getMovieReviews(id: Long): MovieResponse<MovieReviews>
     suspend fun getMovieVideos(id: Long): MovieResponse<MovieVideo>
+    suspend fun getMovie(id: Long): Movie
 }
 
 class NetworkMoviesRepository(private val apiService: MovieDBApiService) : MoviesRepository {
@@ -27,6 +28,10 @@ class NetworkMoviesRepository(private val apiService: MovieDBApiService) : Movie
 
     override suspend fun getMovieDetail(id: Long): MovieDetail {
         return apiService.getMovieDetail(id);
+    }
+
+    override suspend fun getMovie(id: Long): Movie {
+        return apiService.getMovie(id);
     }
 
     override suspend fun getMovieReviews(id: Long): MovieResponse<MovieReviews> {
