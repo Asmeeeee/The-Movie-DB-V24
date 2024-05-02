@@ -145,7 +145,6 @@ class MovieDBViewModel(private val moviesRepository: MoviesRepository, private v
 
     fun saveMovie(movieDetail: MovieDetail){
         viewModelScope.launch {
-            movieListUiState = MovieListUiState.Loading
             try{
                 savedMovieRepository.inserMovie(movieDetail.toMovie())
                 selectedMovieUiState = SelectedMovieUiState.Success(movieDetail, true)
