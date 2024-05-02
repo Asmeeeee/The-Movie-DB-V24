@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
@@ -98,8 +99,9 @@ fun MovieDetailScreen(
                         Text(text = stringResource(id = R.string.open_homepage))
                     }
                 }
-                Row {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(text = "Favorite", style = MaterialTheme.typography.bodyLarge)
+                    Spacer(modifier = Modifier.size(8.dp))
                     Switch(checked = selectedMovieUiState.is_Favorite, onCheckedChange = {
                         if(it){
                             movieDBViewModel.saveMovie(selectedMovieUiState.movieDetail)
