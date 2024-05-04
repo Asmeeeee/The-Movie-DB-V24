@@ -2,6 +2,7 @@ package com.example.themoviedbv24.ui.screens
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -169,12 +170,16 @@ fun MovieVideoItemCard(
                 .width(200.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(
                     modifier = Modifier
                         .weight(weight = 1f, fill = false)
                         .verticalScroll(rememberScrollState()),
                     text = movieVideo.name,
+                    maxLines = 3,
                     style = MaterialTheme.typography.bodySmall,
                 )
                 IconButton(onClick = {

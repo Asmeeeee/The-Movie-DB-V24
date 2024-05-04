@@ -25,14 +25,11 @@ class DownloadVideoWorker(context: Context, params: WorkerParameters) :
         // Save the downloaded video to storage
         val savedVideoPath = saveVideoToStorage(downloadedVideoPath) ?: return Result.failure()
 
-        // Update the MovieExtraScreen with the downloaded video path
-        //updateMovieExtraScreen(savedVideoPath)
-
         return Result.success()
     }
 
     private suspend fun downloadVideo(videoUrl: String): String? {
-        Log.i("DownloadVideoWorker ","je rentre")
+        Log.i("DownloadVideoWorker", "Downloading video from $videoUrl")
         return withContext(Dispatchers.IO) {
             try {
                 val client = OkHttpClient()
@@ -57,6 +54,7 @@ class DownloadVideoWorker(context: Context, params: WorkerParameters) :
     }
 
     private suspend fun saveVideoToStorage(downloadedVideoPath: String): String? {
+        Log.i("DownloadVideoWorker", "Saving video to storage: "+downloadedVideoPath)
         return withContext(Dispatchers.IO) {
             try {
                 val sourceFile = File(downloadedVideoPath)
@@ -69,25 +67,6 @@ class DownloadVideoWorker(context: Context, params: WorkerParameters) :
             }
         }
     }
-
-
-//    private suspend fun updateMovieExtraScreen(savedVideoPath: String) {
-//        // Update the MovieExtraScreen with the downloaded video path
-//        // For example, if you are using Room database, you can update the database like this:
-//        val database = Room.databaseBuilder(
-//            applicationContext,
-//            AppDatabase::class.java,
-//            "app-database"
-//        ).build()
-//
-//        withContext(Dispatchers.IO) {
-//            // Assuming you have a MovieExtraScreenDao
-//            val movieExtraScreenDao = database.movieExtraScreenDao()
-//            val movieExtraScreen = movieExtraScreenDao.getMovieExtraScreen()
-//            movieExtraScreen.videoPath = savedVideoPath
-//            movieExtraScreenDao.updateMovieExtraScreen(movieExtraScreen)
-//        }
-//    }
 
     companion object {
         const val KEY_VIDEO_URL = "video_url"
