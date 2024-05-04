@@ -3,6 +3,7 @@ package com.example.themoviedbv24.ui.screens
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,25 +20,35 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Badge
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
+import com.example.themoviedbv24.R
+import com.example.themoviedbv24.database.VideoDownloadWorkManager
 import com.example.themoviedbv24.model.MovieReviews
 import com.example.themoviedbv24.model.MovieVideo
+import com.example.themoviedbv24.utils.Constants
 import com.example.themoviedbv24.viewmodel.SelectedMovieVideosUiState
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import kotlin.coroutines.coroutineContext
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -144,7 +155,12 @@ fun MovieReviewItemCard(
 @Composable
 fun MovieVideoItemCard(
     movieVideo: MovieVideo,
-    modifier: Modifier = Modifier){
+    modifier: Modifier = Modifier
+) {
+    val context = LocalContext.current
+    val videoDownloadWorkManager = remember(context) {
+        VideoDownloadWorkManager(context)
+    }
     Card(
         modifier = modifier,
     ) {
@@ -153,13 +169,24 @@ fun MovieVideoItemCard(
                 .width(200.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                modifier = modifier
-                    .verticalScroll(rememberScrollState())
-                    .weight(weight = 1f, fill = false),
-                text = movieVideo.name,
-                style = MaterialTheme.typography.bodySmall,
-            )
+            Row {
+                Text(
+                    modifier = Modifier
+                        .weight(weight = 1f, fill = false)
+                        .verticalScroll(rememberScrollState()),
+                    text = movieVideo.name,
+                    style = MaterialTheme.typography.bodySmall,
+                )
+                IconButton(onClick = {
+                    // Déclencher le téléchargement de la vidéo ici
+                    videoDownloadWorkManager.downloadVideo(Constants.YOUTUBE_BASE_URL + movieVideo.key)
+                }) {
+                    Icon(
+                        imageVector = Icons.Filled.Lock,
+                        contentDescription = "download"
+                    )
+                }
+            }
             ExoPlayerView()
         }
     }
