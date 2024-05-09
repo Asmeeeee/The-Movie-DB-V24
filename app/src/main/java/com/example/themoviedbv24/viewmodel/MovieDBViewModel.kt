@@ -61,7 +61,7 @@ class MovieDBViewModel(private val moviesRepository: MoviesRepository, private v
         private set
 
     init {
-        getPopularMovies()
+        getTopRatedMovies()
     }
 
     fun getTopRatedMovies() {
