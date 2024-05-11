@@ -1,6 +1,7 @@
-package com.example.themoviedbv24.model
+package com.example.themoviedbv24.utils
 
 import androidx.room.TypeConverter
+import com.example.themoviedbv24.model.Movie
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 

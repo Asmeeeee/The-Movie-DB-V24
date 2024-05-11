@@ -13,6 +13,7 @@ import com.example.themoviedbv24.MovieDBApplication
 import com.example.themoviedbv24.database.FavoriteMovieRepository
 import com.example.themoviedbv24.database.MoviesRepository
 import com.example.themoviedbv24.database.SavedMovieRepository
+import com.example.themoviedbv24.database.WorkManagerCacheRepository
 import com.example.themoviedbv24.model.Movie
 import com.example.themoviedbv24.model.MovieDetail
 import com.example.themoviedbv24.model.MovieReviews
@@ -46,7 +47,7 @@ sealed interface SelectedMovieVideosUiState {
 }
 
 
-class MovieDBViewModel(private val moviesRepository: MoviesRepository, private val savedMovieRepository: SavedMovieRepository) : ViewModel() {
+class MovieDBViewModel(private val moviesRepository: MoviesRepository, private val savedMovieRepository: SavedMovieRepository, private val workManagerCacheRepository: WorkManagerCacheRepository) : ViewModel() {
 
     var movieListUiState: MovieListUiState by mutableStateOf(MovieListUiState.Loading)
         private set
@@ -170,7 +171,8 @@ class MovieDBViewModel(private val moviesRepository: MoviesRepository, private v
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as MovieDBApplication)
                 val moviesRepository = application.container.moviesRepository
                 val savedMovieRepository = application.container.savedMovieRepository
-                MovieDBViewModel(moviesRepository = moviesRepository, savedMovieRepository = savedMovieRepository)
+                val workManagerCacheRepository = application.container.workManagerCacheRepository
+                MovieDBViewModel(moviesRepository = moviesRepository, savedMovieRepository = savedMovieRepository, workManagerCacheRepository = workManagerCacheRepository)
             }
         }
     }

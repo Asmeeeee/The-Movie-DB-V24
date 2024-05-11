@@ -11,7 +11,7 @@ import kotlinx.serialization.Serializable
 data class MovieResponse(
 
     @PrimaryKey(autoGenerate = true)
-    var id: Long = 0,
+    val id: Long = 0,
 
     @SerialName(value = "page")
     var page: Int = 0,
