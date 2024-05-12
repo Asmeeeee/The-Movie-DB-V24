@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.themoviedbv24.MovieDBApplication
+import com.example.themoviedbv24.database.CacheWorkManagerRepository
 import com.example.themoviedbv24.database.FavoriteMovieRepository
 import com.example.themoviedbv24.database.MoviesRepository
 import com.example.themoviedbv24.database.SavedMovieRepository
@@ -46,7 +47,7 @@ sealed interface SelectedMovieVideosUiState {
 }
 
 
-class MovieDBViewModel(private val moviesRepository: MoviesRepository, private val savedMovieRepository: SavedMovieRepository, private val workManagerCacheRepository: WorkManagerCacheRepository) : ViewModel() {
+class MovieDBViewModel(private val moviesRepository: MoviesRepository, private val savedMovieRepository: SavedMovieRepository, private val cacheWorkManagerRepository: CacheWorkManagerRepository) : ViewModel() {
 
     var movieListUiState: MovieListUiState by mutableStateOf(MovieListUiState.Loading)
         private set
@@ -170,8 +171,8 @@ class MovieDBViewModel(private val moviesRepository: MoviesRepository, private v
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as MovieDBApplication)
                 val moviesRepository = application.container.moviesRepository
                 val savedMovieRepository = application.container.savedMovieRepository
-                val workManagerCacheRepository = application.container.workManagerCacheRepository
-                MovieDBViewModel(moviesRepository = moviesRepository, savedMovieRepository = savedMovieRepository, workManagerCacheRepository = workManagerCacheRepository)
+                val cacheWorkManagerRepository = application.container.cacheWorkManagerRepository
+                MovieDBViewModel(moviesRepository = moviesRepository, savedMovieRepository = savedMovieRepository, cacheWorkManagerRepository = cacheWorkManagerRepository)
             }
         }
     }
