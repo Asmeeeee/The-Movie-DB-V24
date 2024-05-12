@@ -10,17 +10,17 @@ import com.example.themoviedbv24.workers.CacheWorker
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-class WorkManagerCacheRepository(context: Context) {
+class CacheWorkManagerRepository(context: Context) {
     private val workManager = WorkManager.getInstance(context)
 
     fun cacheMovieList(category: MovieDBScreen, movies: List<Movie>) {
         val inputData = workDataOf(
-            WorkManagerCacheRepository.KEY_CATEGORY to category.name,
-            WorkManagerCacheRepository.KEY_MOVIES to Json.encodeToString(movies)
+            CacheWorkManagerRepository.KEY_CATEGORY to category.name,
+            CacheWorkManagerRepository.KEY_MOVIES to Json.encodeToString(movies)
         )
 
         val saveMovieListRequest = OneTimeWorkRequestBuilder<CacheWorker>()
-            .addTag(WorkManagerCacheRepository.SAVE_CACHE)
+            .addTag(CacheWorkManagerRepository.SAVE_CACHE)
             .setInputData(inputData)
             .build()
 

@@ -13,7 +13,6 @@ import com.example.themoviedbv24.MovieDBApplication
 import com.example.themoviedbv24.database.FavoriteMovieRepository
 import com.example.themoviedbv24.database.MoviesRepository
 import com.example.themoviedbv24.database.SavedMovieRepository
-import com.example.themoviedbv24.database.WorkManagerCacheRepository
 import com.example.themoviedbv24.model.Movie
 import com.example.themoviedbv24.model.MovieDetail
 import com.example.themoviedbv24.model.MovieReviews
