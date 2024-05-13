@@ -38,7 +38,6 @@ data class MovieDetail (
             id = this.id,
             title = this.title,
             posterPath = this.posterPath,
-            backdropPath = this.backdropPath,
             releaseDate = this.releaseDate,
             overview = this.overview
         )

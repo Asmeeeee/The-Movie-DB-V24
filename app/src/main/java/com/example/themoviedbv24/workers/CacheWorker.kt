@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.themoviedbv24.database.MovieDatabase
-import com.example.themoviedbv24.database.NetworkCacheMoviesRepository
+import com.example.themoviedbv24.cache.NetworkCacheMoviesRepository
 import com.example.themoviedbv24.utils.MovieListConverter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

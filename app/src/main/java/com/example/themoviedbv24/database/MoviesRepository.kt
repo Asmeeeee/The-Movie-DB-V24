@@ -45,26 +45,6 @@ class NetworkMoviesRepository(private val apiService: MovieDBApiService) : Movie
     }
 }
 
-interface CacheMoviesRepository {
-    suspend fun getCacheMovies(): MovieResponse
-    suspend fun insertCacheMovies(movie: MovieResponse)
-    suspend fun clearCacheMovies()
-}
-
-class NetworkCacheMoviesRepository(private val cacheMoviesDao: CacheMoviesDao) : CacheMoviesDao{
-    override suspend fun getCacheMovies(): MovieResponse {
-        return cacheMoviesDao.getCacheMovies();
-    }
-
-    override suspend fun insertCacheMovies(movie: MovieResponse) {
-        cacheMoviesDao.insertCacheMovies(movie)
-    }
-
-    override suspend fun clearCacheMovies() {
-        cacheMoviesDao.clearCacheMovies();
-    }
-}
-
 interface SavedMovieRepository{
     suspend fun getSavedMovies(): List<Movie>
     suspend fun inserMovie(movie: Movie)

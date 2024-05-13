@@ -108,21 +108,3 @@ fun MovieGridItemCard(movie: Movie,
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun MovieGridItemCardPreview() {
-    TheMovieDBV24Theme {
-        MovieGridItemCard(
-            movie = Movie(
-                id=693134,
-                backdropPath = "er",
-                overview = "sd",
-                posterPath = "/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg",
-                releaseDate = "2024-02-27",
-                title = "r"
-            ),
-            onMovieGridItemClicked = {}
-        )
-    }
-}

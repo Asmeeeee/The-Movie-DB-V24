@@ -1,6 +1,8 @@
 package com.example.themoviedbv24.database
 
 import android.content.Context
+import com.example.themoviedbv24.cache.CacheMoviesRepository
+import com.example.themoviedbv24.cache.NetworkCacheMoviesRepository
 import com.example.themoviedbv24.network.MovieDBApiService
 import com.example.themoviedbv24.utils.Constants
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -12,7 +14,7 @@ import retrofit2.Retrofit
 interface AppContainer {
     val moviesRepository: MoviesRepository
     val savedMovieRepository: SavedMovieRepository
-    val workManagerCacheRepository: WorkManagerCacheRepository
+    val cacheMoviesRepository: CacheMoviesRepository
 }
 
 class DefaultAppContainer(private val context: Context) : AppContainer {
@@ -50,7 +52,7 @@ class DefaultAppContainer(private val context: Context) : AppContainer {
     override val savedMovieRepository: SavedMovieRepository by lazy {
         FavoriteMovieRepository(MovieDatabase.getDatabase(context).movieDao())
     }
-    override val workManagerCacheRepository: WorkManagerCacheRepository by lazy {
-        WorkManagerCacheRepository(context)
+    override val cacheMoviesRepository: CacheMoviesRepository by lazy {
+        NetworkCacheMoviesRepository(MovieDatabase.getDatabase(context).cacheMoviesDao())
     }
 }

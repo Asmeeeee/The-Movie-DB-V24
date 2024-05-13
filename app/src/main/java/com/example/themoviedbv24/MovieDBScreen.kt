@@ -103,7 +103,7 @@ fun MovieDBAppBar(
                 DropdownMenu(expanded = menuExpanded, onDismissRequest = { menuExpanded = false }) {
                     DropdownMenuItem(
                         onClick = {
-                            movieDBViewModel.getPopularMovies()
+                            movieDBViewModel.getPopularMovies(false)
                             menuExpanded = false
 
                         },
@@ -113,7 +113,7 @@ fun MovieDBAppBar(
                     )
                     DropdownMenuItem(
                         onClick = {
-                            movieDBViewModel.getTopRatedMovies()
+                            movieDBViewModel.getTopRatedMovies(false)
                             menuExpanded = false
 
                         },

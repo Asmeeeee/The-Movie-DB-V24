@@ -6,10 +6,11 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.themoviedbv24.model.Movie
+import com.example.themoviedbv24.model.MovieCache
 import com.example.themoviedbv24.utils.MovieListConverter
 import com.example.themoviedbv24.model.MovieResponse
 
-@Database(entities = [Movie::class, MovieResponse::class], version = 2, exportSchema = false)
+@Database(entities = [Movie::class, MovieCache::class], version = 5, exportSchema = false)
 @TypeConverters(MovieListConverter::class)
 abstract class MovieDatabase : RoomDatabase() {
 
