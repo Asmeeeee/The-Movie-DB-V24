@@ -75,12 +75,18 @@ class MovieDBViewModel(private val moviesRepository: MoviesRepository, private v
             movieListUiState = MovieListUiState.Loading
             movieListUiState = try {
                 if(firstCall){
-                    cacheMoviesRepository.clearCacheMovies()
-                    cacheMoviesRepository.insertCacheMovies(MovieCache(category = "topRated", results = moviesRepository.getTopRatedMovies().results))
+                    val temp = moviesRepository.getTopRatedMovies().results
+                    if(!temp.isEmpty()){
+                        cacheMoviesRepository.clearCacheMovies()
+                        cacheMoviesRepository.insertCacheMovies(MovieCache(category = "topRated", results = temp))
+                    }
                 }
                 else if (cacheMoviesRepository.getCategory() != "topRated") {
-                    cacheMoviesRepository.clearCacheMovies()
-                    cacheMoviesRepository.insertCacheMovies(MovieCache(category = "topRated", results = moviesRepository.getTopRatedMovies().results))
+                    val temp = moviesRepository.getTopRatedMovies().results
+                    if(!temp.isEmpty()){
+                        cacheMoviesRepository.clearCacheMovies()
+                        cacheMoviesRepository.insertCacheMovies(MovieCache(category = "topRated", results = temp))
+                    }
                 }
                 MovieListUiState.Success(cacheMoviesRepository.getCacheMovies().results)
             } catch (e: IOException) {
@@ -100,8 +106,11 @@ class MovieDBViewModel(private val moviesRepository: MoviesRepository, private v
                     cacheMoviesRepository.insertCacheMovies(MovieCache(category = "popular", results = moviesRepository.getPopularMovies().results))
                 }
                 else if (cacheMoviesRepository.getCategory() != "popular") {
-                    cacheMoviesRepository.clearCacheMovies()
-                    cacheMoviesRepository.insertCacheMovies(MovieCache(category = "popular", results = moviesRepository.getPopularMovies().results))
+                    val temp = moviesRepository.getPopularMovies().results
+                    if(!temp.isEmpty()){
+                        cacheMoviesRepository.clearCacheMovies()
+                        cacheMoviesRepository.insertCacheMovies(MovieCache(category = "popular", results = temp))
+                    }
                 }
                 MovieListUiState.Success(cacheMoviesRepository.getCacheMovies().results)
             } catch (e: IOException) {
