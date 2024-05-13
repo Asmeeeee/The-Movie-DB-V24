@@ -75,6 +75,7 @@ class MovieDBViewModel(private val moviesRepository: MoviesRepository, private v
             movieListUiState = MovieListUiState.Loading
             movieListUiState = try {
                 if(firstCall){
+                    cacheMoviesRepository.clearCacheMovies()
                     cacheMoviesRepository.insertCacheMovies(MovieCache(category = "topRated", results = moviesRepository.getTopRatedMovies().results))
                 }
                 else if (cacheMoviesRepository.getCategory() != "topRated") {
@@ -95,6 +96,7 @@ class MovieDBViewModel(private val moviesRepository: MoviesRepository, private v
             movieListUiState = MovieListUiState.Loading
             movieListUiState = try {
                 if(firstCall){
+                    cacheMoviesRepository.clearCacheMovies()
                     cacheMoviesRepository.insertCacheMovies(MovieCache(category = "popular", results = moviesRepository.getPopularMovies().results))
                 }
                 else if (cacheMoviesRepository.getCategory() != "popular") {
