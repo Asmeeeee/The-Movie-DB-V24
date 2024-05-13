@@ -1,5 +1,6 @@
 package com.example.themoviedbv24.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -77,6 +78,7 @@ class MovieDBViewModel(private val moviesRepository: MoviesRepository, private v
                     cacheMoviesRepository.insertCacheMovies(MovieCache(category = "topRated", results = moviesRepository.getTopRatedMovies().results))
                 }
                 else if (cacheMoviesRepository.getCategory() != "topRated") {
+                    cacheMoviesRepository.clearCacheMovies()
                     cacheMoviesRepository.insertCacheMovies(MovieCache(category = "topRated", results = moviesRepository.getTopRatedMovies().results))
                 }
                 MovieListUiState.Success(cacheMoviesRepository.getCacheMovies().results)
@@ -95,7 +97,8 @@ class MovieDBViewModel(private val moviesRepository: MoviesRepository, private v
                 if(firstCall){
                     cacheMoviesRepository.insertCacheMovies(MovieCache(category = "popular", results = moviesRepository.getPopularMovies().results))
                 }
-                if (cacheMoviesRepository.getCategory() != "popular") {
+                else if (cacheMoviesRepository.getCategory() != "popular") {
+                    cacheMoviesRepository.clearCacheMovies()
                     cacheMoviesRepository.insertCacheMovies(MovieCache(category = "popular", results = moviesRepository.getPopularMovies().results))
                 }
                 MovieListUiState.Success(cacheMoviesRepository.getCacheMovies().results)
